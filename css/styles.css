@@ -64,10 +64,10 @@ textarea {
   text-decoration: none;
 }
 
-.fa:visited {
+a:visited {
   color: black;
 }
-.fa:hover {
+a:hover {
   color: blue;
 }
 
