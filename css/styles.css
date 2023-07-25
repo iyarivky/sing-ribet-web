@@ -1,0 +1,102 @@
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  max-width: 90%;
+  width: 90%;
+  border-radius: 5px;
+  margin: auto;
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+
+.container {
+  padding: 2px 22px 20px 18px;
+}
+
+p {
+  font-family: "Rubik", serif;
+  font-size: 15px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+.judul {
+  padding-bottom: 20px;
+}
+h2 {
+  font-family: "Source Serif 4", serif;
+  text-align: center;
+  font-size: 2em;
+}
+
+h3 {
+  font-family: "Rubik", monospace;
+  text-align: center;
+}
+
+h4 {
+  font-family: "Rubik", monospace;
+  text-align: left;
+  padding-top: 1px;
+}
+
+textarea {
+  font-family: "Rubik", sans-serif;
+  font-size: 1em;
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  height: 100px;
+  vertical-align: bottom;
+  resize: vertical;
+  border-radius: 4px;
+}
+
+.kaki {
+  text-align: center;
+  margin: auto;
+}
+
+.tombol {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.button {
+  font-family: "Rubik", sans-serif;
+  position: relative;
+  background-color: #04aa6d;
+  border: none;
+  font-size: 15px;
+  color: #ffffff;
+  padding: 10px;
+  text-align: center;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+  text-decoration: none;
+  overflow: hidden;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.button:after {
+  content: "";
+  background: #90ee90;
+  display: block;
+  position: absolute;
+  padding-top: 300%;
+  padding-left: 350%;
+  margin-left: -20px !important;
+  margin-top: -120%;
+  opacity: 0;
+  transition: all 0.8s;
+  border-radius: 16px;
+}
+
+.button:active:after {
+  padding: 0;
+  margin: 0;
+  opacity: 1;
+  transition: 0s;
+}
