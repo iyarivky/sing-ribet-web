@@ -42,7 +42,7 @@ h4 {
 }
 
 textarea {
-  font-family: "Rubik", sans-serif;
+  font-family: monospace;
   font-size: 1em;
   position: relative;
   display: inline-block;
