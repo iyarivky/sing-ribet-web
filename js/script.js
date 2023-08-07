@@ -474,10 +474,10 @@ async function parseUrl() {
     );
     config.outbounds.splice(addProxy + 1, 0, ...outboundsConfig);
   }
-  let formattedConfigSFA = JSON.stringify(configs["sfa"], null, 4);
-  let formattedConfigSFASimple = JSON.stringify(configs["sfaSimple"], null, 4);
-  let formattedConfigBFM = JSON.stringify(configs["bfm"], null, 4);
-  let formattedConfigBFMSimple = JSON.stringify(configs["bfmSimple"], null, 4);
+  let formattedConfigSFA = JSON.stringify(configs["sfa"], null, 2);
+  let formattedConfigSFASimple = JSON.stringify(configs["sfaSimple"], null, 2);
+  let formattedConfigBFM = JSON.stringify(configs["bfm"], null, 2);
+  let formattedConfigBFMSimple = JSON.stringify(configs["bfmSimple"], null, 2);
   document.getElementById("output1").value = formattedConfigSFA;
   document.getElementById("output2").value = formattedConfigSFASimple;
   document.getElementById("output3").value = formattedConfigBFM;
