@@ -7,6 +7,7 @@ var pasteConfig = function () {
   });
 };
 
+//parseUrl button
 function parseUrl() {
     var inputText = document.getElementById("input").value;
     document.getElementById("output-1").value = inputText;
