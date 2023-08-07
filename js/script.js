@@ -6,3 +6,8 @@ var pasteConfig = function () {
     status: "success"
   });
 };
+
+function parseUrl() {
+    var inputText = document.getElementById("input").value;
+    document.getElementById("output").value = inputText;
+  }
