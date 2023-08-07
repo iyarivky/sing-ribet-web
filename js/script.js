@@ -157,10 +157,6 @@ var gBase64 = {
 };
 
 // test.js
-addEventListener("fetch", (event) => {
-  event.respondWith(handleRequest(event.request));
-});
-
 async function v2rayToSing(v2rayAccount) {
   let v2rayArrayUrl = v2rayAccount.split("\n");
   let ftpArrayUrl = v2rayArrayUrl.map((urlString) => urlString.replace(/^[^:]+(?=:\/\/)/, "ftp"));
