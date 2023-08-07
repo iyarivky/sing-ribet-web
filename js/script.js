@@ -16,8 +16,8 @@ var pasteConfig = function(outputId) {
 //parseUrl button
 function parseUrl() {
 	var inputText = document.getElementById("input").value;
-	document.getElementById("output1").value = inputText;
-	document.getElementById("output2").value = inputText;
-	document.getElementById("output3").value = inputText;
-	document.getElementById("output4").value = inputText;
+	document.getElementById("output1").value = inputText + "hello SFA";
+	document.getElementById("output2").value = inputText + "hello SFA Simple";
+	document.getElementById("output3").value = inputText + "hello BFM";
+	document.getElementById("output4").value = inputText + "hello BFM Simple";
 }
