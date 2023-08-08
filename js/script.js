@@ -415,6 +415,12 @@ function pasteConfig(outputId) {
 
 //parseUrl button
 async function parseUrl() {
+  let wait = SnackBar({
+    message: "Please Wait.",
+    position: "bc",
+    fixed: true,
+    status: "success"
+  });
   let inputText = document.getElementById("input").value;
   let convertAccount = await v2rayToSing(decodeURIComponent(inputText));
   const outboundsConfig = convertAccount.map((item) => item);
@@ -478,6 +484,12 @@ async function parseUrl() {
   document.getElementById("output2").value = formattedConfigSFASimple;
   document.getElementById("output3").value = formattedConfigBFM;
   document.getElementById("output4").value = formattedConfigBFMSimple;
+  let succ = SnackBar({
+    message: "Convert Success.",
+    position: "bc",
+    fixed: true,
+    status: "success"
+  });
 }
 
 function downloadConfig(outputId){
