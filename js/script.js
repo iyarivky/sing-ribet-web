@@ -479,3 +479,25 @@ async function parseUrl() {
   document.getElementById("output3").value = formattedConfigBFM;
   document.getElementById("output4").value = formattedConfigBFMSimple;
 }
+
+function downloadConfig(outputId){
+  let listNameConfig = {
+    "output1" : "sfa",
+    "output2" : "sfaSimple",
+    "output3" : "bfm",
+    "output4" : "bfmSimple"
+  }
+  let nameConfig = listNameConfig[outputId]
+  let outputText = document.getElementById(outputId).value;
+  let blob = new Blob([outputText], {type: "text/plain;charset=utf-8"});
+  let date = new Date();
+  let dateString = date.toLocaleDateString('id-ID').replace(/\//g, '-');
+  let timeString = date.toLocaleTimeString('id-ID');
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement("a");
+  a.href = url;
+  a.download = `${nameConfig}-${dateString}-${timeString}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
