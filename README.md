@@ -8,4 +8,4 @@ sing-ribet web converter
 
 pm me [@iya_rivvikyn](https://t.me/iya_rivvikyn) if you wanna ask something or maybe you wanna be my friend :3
 
-![4b207e4dff997cc76ea8b55019e7170a](https://github.com/iyarivky/sing-ribet-web/assets/101973571/e73e43c2-5de1-4f50-91f8-d490ac8289de)
+<p align="left"><img src="https://github.com/iyarivky/sing-ribet-web/assets/101973571/e73e43c2-5de1-4f50-91f8-d490ac8289de" alt="ayo what?" width=300px></p>
