@@ -371,7 +371,8 @@ async function v2rayToSing(v2rayAccount) {
       type: "http",
       server: ftpParsedUrl.hostname,
       server_port: ~~ftpParsedUrl.port,
-      password: ftpParsedUrl.username
+      username: ftpParsedUrl.username,
+      password: ftpParsedUrl.password
     };
     if (ftpParsedUrl.protocol === "https:") {
       configResult.tls = {
