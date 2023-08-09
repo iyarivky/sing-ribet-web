@@ -376,10 +376,13 @@ async function v2rayToSing(v2rayAccount) {
     if (ftpParsedUrl.protocol === "https:") {
       configResult.tls = {
         enabled: true,
-        server_name: ftpParsedUrl.searchParams.get("sni"),
-        insecure: true,
-        disable_sni: false
+        insecure: true
       };
+    }
+    if (ftpParsedUrl.searchParams.get("sni")){
+      configResult.tls = {
+        server_name: ftpParsedUrl.searchParams.get("sni")
+      }
     }
     return configResult;
   }
