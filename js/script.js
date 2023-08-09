@@ -379,9 +379,7 @@ async function v2rayToSing(v2rayAccount) {
         insecure: true
       };
       if (ftpParsedUrl.searchParams.get("sni")){
-        configResult.tls = {
-          server_name: ftpParsedUrl.searchParams.get("sni")
-        }
+        configResult.tls.server_name = ftpParsedUrl.searchParams.get("sni")
       }
     }
     return configResult;
