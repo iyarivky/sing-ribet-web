@@ -159,7 +159,15 @@ var gBase64 = {
 // test.js
 async function v2rayToSing(v2rayAccount) {
   let v2rayArrayUrl = v2rayAccount.split("\n");
-  let ftpArrayUrl = v2rayArrayUrl.map((urlString) => urlString.replace(/^[^:]+(?=:\/\/)/, "ftp"));
+  // let ftpArrayUrl = v2rayArrayUrl.map((urlString) => urlString.replace(/^[^:]+(?=:\/\/)/, "ftp"));
+  let ftpArrayUrl = v2rayArrayUrl.map((urlString) => {
+    if (!urlString.startsWith("http://") && !urlString.startsWith("https://")) {
+        return urlString.replace(/^[^:]+(?=:\/\/)/, "ftp");
+    } else {
+        return urlString;
+    }
+  });
+
   let resultParse = [];
 
   function parseVmessUrl(ftpArrayUrl2) {
@@ -365,6 +373,14 @@ async function v2rayToSing(v2rayAccount) {
       server_port: ~~ftpParsedUrl.port,
       password: ftpParsedUrl.username
     };
+    if (ftpParsedUrl.protocol === "https:") {
+      configResult.tls = {
+        enabled: true,
+        server_name: ftpParsedUrl.searchParams.get("sni"),
+        insecure: true,
+        disable_sni: false
+      };
+    }
     return configResult;
   }
   const protocolMap = {
@@ -375,7 +391,8 @@ async function v2rayToSing(v2rayAccount) {
     "ss:": parseShadowsocksUrl,
     "ssr:": parseShadowsocksRUrl,
     "socks5:": parseSocksUrl,
-    "http:": parseHttpUrl
+    "http:": parseHttpUrl,
+    "https:": parseHttpUrl
   };
   let v2rayLength = v2rayArrayUrl.length;
   for (let i = 0; i < v2rayLength; i++) {
