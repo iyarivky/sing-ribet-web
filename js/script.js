@@ -315,6 +315,7 @@ async function v2rayToSing(v2rayAccount) {
     let encoded = decodeURIComponent(ftpParsedUrl.username);
     let decodeResult = atob(encoded);
     let shadowsocksPart = decodeResult.split(":");
+    let pluginPart = ftpParsedUrl.searchParams.get("plugin").split(';')
     const configResult = {
       tag: ftpParsedUrl.hash.substring(1) || ftpParsedUrl.hostname,
       type: "shadowsocks",
@@ -322,8 +323,8 @@ async function v2rayToSing(v2rayAccount) {
       server_port: ~~ftpParsedUrl.port,
       method: shadowsocksPart[0],
       password: shadowsocksPart[1],
-      plugin: "",
-      plugin_opts: ""
+      plugin: pluginPart[0],
+      plugin_opts: pluginPart.slice(1).join(';')
     };
     return configResult;
   }
@@ -417,6 +418,12 @@ async function fetchConfig(url) {
   return await response.json();
 }
 
+function ipChecker(str) {
+  const ipv4Regex = /^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/;
+  const ipv6Regex = /^([0-9A-Fa-f]{1,4}:){7}[0-9A-Fa-f]{1,4}$|([0-9A-Fa-f]{1,4}:){6}:[0-9A-Fa-f]{1,4}$|([0-9A-Fa-f]{1,4}:){5}(:[0-9A-Fa-f]{1,4}){1,2}$|([0-9A-Fa-f]{1,4}:){4}(:[0-9A-Fa-f]{1,4}){1,3}$|([0-9A-Fa-f]{1,4}:){3}(:[0-9A-Fa-f]{1,4}){1,4}$|([0-9A-Fa-f]{1,4}:){2}(:[0-9A-Fa-f]{1,4}){1,5}$|([0-9A-Fa-f]{1,4}:)(:[0-9A-Fa-f]{1,4}){1,6}$|:(:[0-9A-Fa-f]{1,4}){1,7}|fe80:(:[0-9A-Fa-f]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$|([0-9A-Fa-f]{1,4}:){1,4}:[0-9A-Fa-f]{1,4}(:[0-9A-Fa-f]{1,4}){1,4}$/;
+  return ipv4Regex.test(str) || ipv6Regex.test(str);
+}
+
 function pasteConfig(outputId) {
   let def = SnackBar({
     message: "Successfully copied to clipboard.",
@@ -464,24 +471,27 @@ async function parseUrl() {
     sfa: "https://raw.githubusercontent.com/iyarivky/sing-ribet/main/config/config.json",
     sfaSimple: "https://raw.githubusercontent.com/iyarivky/sing-ribet/main/config/config-simple.json",
     bfm: "https://raw.githubusercontent.com/iyarivky/sing-ribet/main/config/config-bfm.json",
-    bfmSimple: "https://raw.githubusercontent.com/iyarivky/sing-ribet/main/config/config-bfm-simple.json"
+    bfmSimple: "https://raw.githubusercontent.com/iyarivky/sing-ribet/main/config/config-bfm-simple.json",
+    nekobox: "https://raw.githubusercontent.com/iyarivky/sing-ribet/main/config/config-nekobox.json"
   };
   const configs = {};
   for (const [key, url2] of Object.entries(urls)) {
     configs[key] = await fetchConfig(url2);
   }
-  const configNames = ["sfa", "sfaSimple", "bfm", "bfmSimple"];
+  const configNames = ["sfa", "sfaSimple", "bfm", "bfmSimple","nekobox"];
   const tags = {
     sfa: ["Internet", "Best Latency", "Lock Region ID"],
     sfaSimple: ["Internet", "Best Latency"],
     bfm: ["Internet", "Best Latency", "Lock Region ID"],
-    bfmSimple: ["Internet", "Best Latency"]
+    bfmSimple: ["Internet", "Best Latency"],
+    nekobox: ["Internet", "Best Latency"]
   };
   const findIndexTag = {
     sfa: "Lock Region ID",
     sfaSimple: "Best Latency",
     bfm: "Lock Region ID",
-    bfmSimple: "Best Latency"
+    bfmSimple: "Best Latency",
+    nekobox: "Best Latency"
   };
   for (const name of configNames) {
     const config = configs[name];
@@ -494,15 +504,23 @@ async function parseUrl() {
       (outbound) => outbound.tag === findIndexTag[name]
     );
     config.outbounds.splice(addProxy + 1, 0, ...outboundsConfig);
+
+    const servers = config.outbounds.map(outbound => outbound.server).filter(server => server).filter(filterserver => !ipChecker(filterserver));
+    const directDnsRule = config.dns.rules.find(rule => rule.server === "direct-dns");
+    if (directDnsRule) {
+      directDnsRule.domain_suffix = servers;
+    }
   }
   let formattedConfigSFA = JSON.stringify(configs["sfa"], null, 2);
   let formattedConfigSFASimple = JSON.stringify(configs["sfaSimple"], null, 2);
   let formattedConfigBFM = JSON.stringify(configs["bfm"], null, 2);
   let formattedConfigBFMSimple = JSON.stringify(configs["bfmSimple"], null, 2);
+  let formattedConfigNekobox = JSON.stringify(configs["nekobox"], null, 2);
   document.getElementById("output1").value = formattedConfigSFA;
   document.getElementById("output2").value = formattedConfigSFASimple;
   document.getElementById("output3").value = formattedConfigBFM;
   document.getElementById("output4").value = formattedConfigBFMSimple;
+  document.getElementById("output5").value = formattedConfigNekobox;
   let succ = SnackBar({
     message: "Convert Success.",
     position: "bc",
@@ -516,7 +534,8 @@ function downloadConfig(outputId){
     "output1" : "sfa",
     "output2" : "sfaSimple",
     "output3" : "bfm",
-    "output4" : "bfmSimple"
+    "output4" : "bfmSimple",
+    "output5" : "nekobox"
   }
   let nameConfig = listNameConfig[outputId]
   let outputText = document.getElementById(outputId).value;
