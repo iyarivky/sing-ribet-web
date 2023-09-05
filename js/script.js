@@ -510,6 +510,9 @@ async function parseUrl() {
     if (directDnsRule) {
       directDnsRule.domain_suffix = servers;
     }
+    if (servers.length === 0){
+      config.dns.rules = config.dns.rules.filter((rule) => rule.server !== "direct-dns");
+    }
   }
   let formattedConfigSFA = JSON.stringify(configs["sfa"], null, 2);
   let formattedConfigSFASimple = JSON.stringify(configs["sfaSimple"], null, 2);
